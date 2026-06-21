@@ -28,10 +28,10 @@
             overflow-x: hidden;
         }
 
-        /* СВЕЧЕНИЕ ДЛЯ АНГЛИЙСКОГО ТЕКСТА */
+        /* ЧИСТОЕ БЕЛОЕ НЕОНОВОЕ СВЕЧЕНИЕ ДЛЯ АНГЛИЙСКИХ СЛОВ */
         .glow-text {
             color: #ffffff;
-            text-shadow: 0 0 10px rgba(0, 255, 148, 0.6), 0 0 20px rgba(0, 112, 243, 0.4);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.4);
         }
 
         /* СЕКЦИИ САЙТА С АНИМАЦИЕЙ В ОБЕ СТОРОНЫ */
@@ -60,7 +60,7 @@
             text-align: center;
         }
 
-        /* Ник с градиентом и неоновым drop-shadow свечением */
+        /* Ник с градиентом и многослойным Deep Glow свечением */
         .gradient-nick {
             font-size: 96px;
             font-weight: 700;
@@ -69,7 +69,9 @@
             background: linear-gradient(135deg, #00ff94 0%, #0070f3 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 25px rgba(0, 255, 148, 0.35)) drop-shadow(0 0 10px rgba(0, 112, 243, 0.4));
+            filter: drop-shadow(0 0 10px rgba(0, 255, 148, 0.6)) 
+                    drop-shadow(0 0 25px rgba(0, 112, 243, 0.5)) 
+                    drop-shadow(0 0 50px rgba(0, 255, 148, 0.3));
         }
 
         /* Подзаголовок: зеленый цвет + сочное свечение */
@@ -95,7 +97,7 @@
             margin-bottom: 50px;
         }
 
-        /* АВТОМАТИЧЕСКАЯ БЕСКОНЕЧНАЯ КАРУСЕЛЬ (СПРАВА НАЛЕВО) */
+        /* АВТОМАТИЧЕСКАЯ БЕСКОНЕЧНАЯ КАРУСЕЛЬ (ПЛЫВЕТ ВСЕГДА) */
         .carousel-wrapper {
             width: 100vw;
             position: relative;
@@ -113,11 +115,6 @@
             width: max-content;
             animation: scrollMarquee 28s linear infinite;
             padding-left: 25px;
-        }
-
-        /* Остановка витрины при наведении */
-        .carousel-wrapper:hover .carousel-track {
-            animation-play-state: paused;
         }
 
         @keyframes scrollMarquee {
@@ -184,7 +181,6 @@
             transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s, border-color 0.4s, background 0.4s;
         }
 
-        /* Наведение на качества: увеличение + синее свечение */
         .feature-card:hover {
             transform: scale(1.08);
             border-color: #0070f3;
@@ -381,7 +377,8 @@
     <section id="contact" class="cta-box">
         <h2 style="font-size: 48px; margin-bottom: 20px;">Запустим проект?</h2>
         <p style="color: #86868b; margin-bottom: 40px; font-size: 18px;">Свяжитесь со мной прямо сейчас, чтобы обсудить детали вашего видео.</p>
-        <a href="#" class="btn-tg">Написать в Telegram</a>
+        
+        <a href="https://t.me/AmahitoS" class="btn-tg" target="_blank">Написать в Telegram</a>
     </section>
 
     <script>
