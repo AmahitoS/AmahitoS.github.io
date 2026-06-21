@@ -28,6 +28,21 @@
             overflow-x: hidden;
         }
 
+        /* БЕЛЫЕ СВЕТЯЩИЕСЯ БЛИКИ ПО УГЛАМ (СТИЛЬ GOOGLE / APPLE) */
+        .corner-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+            filter: blur(40px);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .glow-top-left { top: -150px; left: -150px; }
+        .glow-top-right { top: -150px; right: -150px; }
+        .glow-bottom-left { bottom: -150px; left: -150px; }
+        .glow-bottom-right { bottom: -150px; right: -150px; }
+
         /* ЧИСТОЕ БЕЛОЕ НЕОНОВОЕ СВЕЧЕНИЕ ДЛЯ АНГЛИЙСКИХ СЛОВ В КАРУСЕЛИ */
         .glow-text {
             color: #ffffff;
@@ -46,6 +61,7 @@
             margin: 0 auto;
             padding: 100px 20px;
             position: relative;
+            z-index: 2; /* Чтобы контент был поверх бликов */
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
@@ -337,6 +353,10 @@
                 height: 45px;
                 font-size: 16px;
             }
+            .corner-glow {
+                width: 250px;
+                height: 250px; /* Уменьшаем блики на мобильных устройствах */
+            }
         }
 
         /* КНОПКА СВЯЗИ */
@@ -438,10 +458,16 @@
             top: 10%;
             left: -100px;
             pointer-events: none;
+            z-index: 1;
         }
     </style>
 </head>
 <body>
+
+    <div class="corner-glow glow-top-left"></div>
+    <div class="corner-glow glow-top-right"></div>
+    <div class="corner-glow glow-bottom-left"></div>
+    <div class="corner-glow glow-bottom-right"></div>
 
     <div class="glow"></div>
 
@@ -599,10 +625,9 @@
         let currentIndex = 0;
         let slides = [];
 
-        // Функция автоматического поиска файлов в твоем репозитории
         async function autoLoadVideos() {
             let index = 1;
-            const maxVideosCheck = 20; // Максимальный лимит видео (можно увеличить)
+            const maxVideosCheck = 20;
 
             while (index <= maxVideosCheck) {
                 const videoUrl = `work${index}.mp4`;
@@ -672,12 +697,11 @@
                 track.style.transform = `translateX(${centerPosition - totalOffset}px)`;
             }
 
-            // Нажатие на стрелки с автоматическим зацикливанием (перелистывание по кругу)
             prevBtn.addEventListener('click', () => {
                 if (currentIndex > 0) {
                     currentIndex--;
                 } else {
-                    currentIndex = slides.length - 1; // Если на первом видео — плавно крутим в самый конец списка
+                    currentIndex = slides.length - 1; 
                 }
                 updateSlider();
             });
@@ -686,12 +710,11 @@
                 if (currentIndex < slides.length - 1) {
                     currentIndex++;
                 } else {
-                    currentIndex = 0; // Если на последнем видео — плавно крутим в самое начало к work1
+                    currentIndex = 0; 
                 }
                 updateSlider();
             });
 
-            // Клик по самому боковому слайду автоматически перелистывает на него
             slides.forEach((slide, index) => {
                 slide.addEventListener('click', () => {
                     if (index !== currentIndex) {
