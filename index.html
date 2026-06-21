@@ -208,13 +208,13 @@
             height: calc(100% - 2px);
             x: 1px;
             y: 1px;
-            rx: 20px; /* Идеально повторяет скругление карточки */
+            rx: 20px;
             ry: 20px;
             fill: transparent;
             stroke: #0070f3;
             stroke-width: 2px;
             stroke-dasharray: 1000;
-            stroke-dashoffset: 1000; /* Изначально полностью спрятан */
+            stroke-dashoffset: 1000;
             transition: stroke-dashoffset 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
@@ -240,7 +240,7 @@
         }
 
         /* ПОРТФОЛИО */
-      /* 4. КИНЕМАТОГРАФИЧНЫЙ СЛАЙДЕР С ВИДЕО */
+        /* 4. КИНЕМАТОГРАФИЧНЫЙ СЛАЙДЕР С ВИДЕО */
         .slider-container {
             position: relative;
             display: flex;
@@ -265,6 +265,7 @@
             gap: 30px;
             width: max-content;
         }
+
         /* Обычное (боковое) видео: меньше, темнее, без свечения */
         .video-slide {
             width: 550px; /* Фиксированная ширина для идеального просчета центра */
@@ -372,7 +373,7 @@
         .bounce-text span {
             display: inline-block;
             opacity: 0;
-            transform: translateY(12px) scale(0.93); /* Идеальная короткая дистанция взлета */
+            transform: translateY(12px) scale(0.93);
             animation: elegantBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.12) forwards;
         }
 
@@ -553,8 +554,7 @@
             <button class="slider-btn prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
             
             <div class="slider-track-wrapper">
-                <div class="slider-track" id="portfolio-track">
-                    </div>
+                <div class="slider-track" id="portfolio-track"></div>
             </div>
             
             <button class="slider-btn next-btn"><i class="fa-solid fa-chevron-right"></i></button>
@@ -591,6 +591,7 @@
         sections.forEach(section => {
             sectionObserver.observe(section);
         });
+
         // АВТОМАТИЧЕСКИЙ СКАНИРОВЩИК ВИДЕОФАЙЛОВ И СЛАЙДЕР
         const track = document.getElementById('portfolio-track');
         const prevBtn = document.querySelector('.prev-btn');
@@ -606,14 +607,11 @@
             while (index <= maxVideosCheck) {
                 const videoUrl = `work${index}.mp4`;
                 try {
-                    // Делаем быстрый скрытый запрос, чтобы проверить, существует ли файл
                     const response = await fetch(videoUrl, { method: 'HEAD' });
                     if (response.ok) {
-                        // Если файл найден — создаем для него ячейку
                         createVideoSlide(videoUrl, index);
                         index++;
                     } else {
-                        // Если файл не найден (например, после work3 идет пустота), останавливаем поиск
                         break; 
                     }
                 } catch (error) {
@@ -621,21 +619,17 @@
                 }
             }
 
-            // Если ты еще не закинул файлы, покажем красивую заглушку-подсказку
             if (track.children.length === 0) {
                 track.innerHTML = `<div class="video-slide active" style="display:flex; align-items:center; justify-content:center; text-align:center; padding:20px; color:#86868b; font-size:15px;">Загрузи файлы с именами work1.mp4, work2.mp4 в репозиторий GitHub, чтобы они появились здесь автоматически!</div>`;
                 return;
             }
 
-            // Инициализируем управление слайдером, когда всё построилось
             initSliderLogic();
         }
 
-        // Функция сборки HTML структуры для видео
         function createVideoSlide(url, num) {
             const slide = document.createElement('div');
             slide.className = 'video-slide';
-            // preload="metadata" — важная штука, чтобы сайт не зависал, качая все видео разом
             slide.innerHTML = `
                 <video preload="metadata" playsinline>
                     <source src="${url}" type="video/mp4">
@@ -644,7 +638,6 @@
             track.appendChild(slide);
         }
 
-        // Логика перелистывания, затемнения и включения плеера
         function initSliderLogic() {
             slides = document.querySelectorAll('.video-slide');
             
@@ -655,21 +648,20 @@
                     if (index === currentIndex) {
                         slide.classList.add('active');
                         if (video) {
-                            video.controls = true; // Включаем плеер (play, таймлайн, звук) только по центру
+                            video.controls = true; 
                         }
                     } else {
                         slide.classList.remove('active');
                         if (video) {
-                            video.controls = false; // Отключаем интерфейс у боковых видео
-                            video.pause(); // Если видео играло и уехало вбок — ставим на паузу
+                            video.controls = false; 
+                            video.pause(); 
                         }
                     }
                 });
 
-                // Математический просчет идеального центрирования активного слайда
                 const wrapperWidth = track.parentElement.offsetWidth;
                 const slideWidth = slides[currentIndex].offsetWidth;
-                const gap = 30; // Должен совпадать с gap в CSS
+                const gap = 30; 
 
                 let totalOffset = 0;
                 for (let i = 0; i < currentIndex; i++) {
@@ -680,19 +672,23 @@
                 track.style.transform = `translateX(${centerPosition - totalOffset}px)`;
             }
 
-            // Нажатие на стрелки
+            // Нажатие на стрелки с автоматическим зацикливанием (перелистывание по кругу)
             prevBtn.addEventListener('click', () => {
                 if (currentIndex > 0) {
                     currentIndex--;
-                    updateSlider();
+                } else {
+                    currentIndex = slides.length - 1; // Если на первом видео — плавно крутим в самый конец списка
                 }
+                updateSlider();
             });
 
             nextBtn.addEventListener('click', () => {
                 if (currentIndex < slides.length - 1) {
                     currentIndex++;
-                    updateSlider();
+                } else {
+                    currentIndex = 0; // Если на последнем видео — плавно крутим в самое начало к work1
                 }
+                updateSlider();
             });
 
             // Клик по самому боковому слайду автоматически перелистывает на него
@@ -705,14 +701,10 @@
                 });
             });
 
-            // Корректный пересчет центра при изменении размеров экрана или повороте мобилки
             window.addEventListener('resize', updateSlider);
-            
-            // Запуск стартового позиционирования
             updateSlider();
         }
 
-        // Запускаем робота-поисковика при загрузке страницы
         autoLoadVideos();
     </script>
 </body>
