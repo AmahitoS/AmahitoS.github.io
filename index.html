@@ -28,7 +28,7 @@
             overflow-x: hidden;
         }
 
-        /* БЕЛЫЕ СВЕТЯЩИЕСЯ БЛИКИ ПО УГЛАМ (СТИЛЬ GOOGLE / APPLE) - СДЕЛАНЫ НАМНОГО ЯРЧЕ */
+        /* БЕЛЫЕ СВЕТЯЩИЕСЯ БЛИКИ ПО УГЛАМ (СТИЛЬ GOOGLE / APPLE) - ЯРКИЕ */
         .corner-glow {
             position: fixed;
             width: 500px;
@@ -61,7 +61,7 @@
             margin: 0 auto;
             padding: 100px 20px;
             position: relative;
-            z-index: 2; /* Чтобы контент был поверх бликов */
+            z-index: 2;
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
@@ -82,14 +82,12 @@
             text-align: center;
         }
 
-        /* Облако Deep Glow свечения вокруг всего никнейма */
         .hero-title-container {
             margin-bottom: 15px;
             filter: drop-shadow(0 0 15px rgba(0, 255, 148, 0.5)) 
                     drop-shadow(0 0 35px rgba(0, 112, 243, 0.4));
         }
 
-        /* Идеальный градиент поверх анимированных букв */
         .gradient-nick span {
             font-size: 96px;
             font-weight: 700;
@@ -99,7 +97,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Подзаголовок: зеленый цвет + сочное свечение */
         .hero-subtitle {
             font-family: 'EB Garamond', serif;
             font-style: italic;
@@ -122,7 +119,7 @@
             margin-bottom: 50px;
         }
 
-        /* АВТОМАТИЧЕСКАЯ БЕСКОНЕЧНАЯ КАРУСЕЛЬ (ПЛЫВЕТ ВСЕГДА) */
+        /* АВТОМАТИЧЕСКАЯ БЕСКОНЕЧНАЯ КАРУСЕЛЬ */
         .carousel-wrapper {
             width: 100vw;
             position: relative;
@@ -187,7 +184,7 @@
             line-height: 1.6;
         }
 
-        /* КАРТОЧКИ С ПИКСЕЛЬ-ПЕРФЕКТ КРУГОВОЙ ОБВОДКОЙ ПО СГЛАЖЕННЫМ УГЛАМ */
+        /* КАРТОЧКИ С ПИКСЕЛЬ-ПЕРФЕКТ КРУГОВОЙ ОБВОДКОЙ */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -209,7 +206,6 @@
             background: rgba(0, 112, 243, 0.03);
         }
 
-        /* Скрытый адаптивный векторный контур для идеальной анимации рамок */
         .card-border-svg {
             position: absolute;
             top: 0;
@@ -234,7 +230,6 @@
             transition: stroke-dashoffset 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Запуск круговой заливки при наведении */
         .feature-card:hover .card-border-svg rect {
             stroke-dashoffset: 0;
         }
@@ -255,7 +250,7 @@
             line-height: 1.5;
         }
 
-        /* ПОРТФОЛИО */
+        /* ПОРТФОЛИО СЛАЙДЕР */
         .slider-container {
             position: relative;
             display: flex;
@@ -280,7 +275,6 @@
             width: max-content;
         }
 
-        /* Обычное (боковое) видео: меньше, темнее, без свечения */
         .video-slide {
             width: 550px;
             aspect-ratio: 16/9;
@@ -295,7 +289,6 @@
             cursor: pointer;
         }
 
-        /* Активное видео по центру: горит ярко-зеленым неоном и увеличивается */
         .video-slide.active {
             opacity: 1;
             transform: scale(1.03);
@@ -311,7 +304,6 @@
             display: block;
         }
 
-        /* СТИЛЬНЫЕ КНОПКИ-СТРЕЛКИ */
         .slider-btn {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -341,7 +333,6 @@
         .prev-btn { margin-right: -20px; }
         .next-btn { margin-left: -20px; }
 
-        /* Адаптивность под мобилки */
         @media (max-width: 768px) {
             .video-slide {
                 width: 290px;
@@ -381,7 +372,7 @@
             box-shadow: 0 0 30px rgba(0, 255, 148, 0.4);
         }
 
-        /* СДЕРЖАННАЯ ПОБУКВЕННАЯ АНИМАЦИЯ */
+        /* ПОБУКВЕННАЯ АНИМАЦИЯ */
         .bounce-text {
             display: flex;
             justify-content: center;
@@ -395,7 +386,6 @@
             animation: elegantBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.12) forwards;
         }
 
-        /* Задержки анимации */
         .gradient-nick span:nth-child(1) { animation-delay: 0.04s; }
         .gradient-nick span:nth-child(2) { animation-delay: 0.08s; }
         .gradient-nick span:nth-child(3) { animation-delay: 0.12s; }
@@ -435,7 +425,7 @@
             100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* ЦЕНТРАЛЬНЫЙ ФОНОВЫЙ БЛИК - ТОЖЕ УСИЛЕН */
+        /* ЦЕНТРАЛЬНЫЙ ФОНОВЫЙ БЛИК - ЯРКИЙ */
         .glow {
             position: absolute;
             width: 600px;
@@ -640,11 +630,12 @@
 
         function createVideoSlide(url, num) {
             const slide = document.createElement('div');
-            // ИСПРАВЛЕНИЕ БАГА: Первому загруженному видео сразу даем класс 'active'
+            
+            // Если это первое видео, сразу делаем его активным и прописываем muted для оптимизации загрузки
             if (num === 1) {
                 slide.className = 'video-slide active';
                 slide.innerHTML = `
-                    <video preload="metadata" playsinline controls>
+                    <video preload="metadata" playsinline controls muted>
                         <source src="${url}" type="video/mp4">
                     </video>
                 `;
