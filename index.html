@@ -3,127 +3,365 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Портфолио видеомонтажера. Создание динамичного развлекательного контента и качественный монтаж подкастов. Опыт работы более 1 года.">
-    <title>Портфолио | Видеомонтажер</title>
+    <title>AmahitoS | Video Editor Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
-        body {
+        /* БАЗОВЫЕ НАСТРОЙКИ СТРАНИЦЫ */
+        * {
+            box-sizing: border-box;
             margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            background-color: #0b0f19;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #05070a; /* Ультра-темный фон */
             color: #f5f5f7;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* СЕКЦИИ САЙТА (ТЕПЕРЬ ОНИ ЛИСТАЮТСЯ ВНИЗ) */
+        section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 100px 20px;
+            position: relative;
+            /* Начальное состояние для анимации появления */
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Класс, который JS добавит при прокрутке */
+        section.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ГЛАВНЫЙ ЭКРАН */
+        .hero {
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
+            text-align: center;
+            padding-top: 40px;
         }
 
-        .container {
-            max-width: 650px;
-            width: 100%;
-            padding: 40px;
-            border-radius: 24px;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 255, 148, 0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            box-sizing: border-box;
-        }
-
-        h1 {
-            font-size: 2.3rem;
-            margin-top: 0;
-            margin-bottom: 5px;
-            background: linear-gradient(135deg, #00ff94, #0070f3);
+        /* Никнейм с зелено-синим градиентом */
+        .gradient-nick {
+            font-size: 96px;
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #00ff94 0%, #0070f3 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .subtitle {
-            color: #00ff94;
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        p {
-            color: #e2e2e9;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            text-align: left;
-        }
-
-        /* Список навыков в стиле тегов */
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 25px;
+        .hero-subtitle {
+            font-family: 'EB Garamond', serif;
+            font-style: italic;
+            font-size: 32px;
+            color: #86868b;
             margin-bottom: 30px;
         }
 
-        .skill-tag {
-            background: rgba(0, 112, 243, 0.1);
-            border: 1px solid rgba(0, 112, 243, 0.3);
-            color: #0070f3;
-            padding: 6px 14px;
-            border-radius: 980px;
-            font-size: 0.9rem;
-            font-weight: 500;
+        .hero-descr {
+            max-width: 600px;
+            font-size: 18px;
+            color: #a1a1a6;
+            line-height: 1.6;
         }
 
-        .skill-tag.green {
-            background: rgba(0, 255, 148, 0.05);
-            border: 1px solid rgba(0, 255, 148, 0.2);
-            color: #00ff94;
-        }
-
-        .btn {
+        /* ЗАГОЛОВКИ СЕКЦИЙ */
+        .section-title {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            position: relative;
             display: inline-block;
-            padding: 12px 30px;
-            border-radius: 980px;
-            background-color: #0070f3;
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
         }
 
-        .btn:hover {
-            background-color: #00ff94;
-            color: #0b0f19;
-            box-shadow: 0 0 20px rgba(0, 255, 148, 0.4);
+        /* КАРУСЕЛЬ ПРИЛОЖЕНИЙ (ШТОРКА) */
+        .carousel-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            padding: 20px 0;
+            scrollbar-width: none; /* Скрываем скроллбар в Firefox */
+        }
+
+        .carousel-wrapper::-webkit-scrollbar {
+            display: none; /* Скрываем скроллбар в Chrome/Safari */
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 25px;
+        }
+
+        .app-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            min-width: 300px;
+            width: 300px;
+            padding: 35px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .app-card:hover {
+            transform: translateY(-10px);
+            border-color: #00ff94;
+            background: rgba(0, 255, 148, 0.02);
+        }
+
+        .app-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            object-fit: cover;
+            background-color: #111;
+        }
+
+        .apple-garamond {
+            font-family: 'EB Garamond', serif;
+            font-style: italic;
+            font-weight: 700;
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .app-card p {
+            font-size: 15px;
+            color: #86868b;
+            line-height: 1.6;
+        }
+
+        /* БЛОК КАЧЕСТВ */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            border-top: 3px solid #0070f3;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            color: #00ff94;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: #a1a1a6;
+            line-height: 1.5;
+        }
+
+        /* ПОРТФОЛИО (ВИДЕО) */
+        .work-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .work-grid { grid-template-columns: 1fr; }
+            .gradient-nick { font-size: 64px; }
+        }
+
+        .work-item {
+            background: #0f1319;
+            border-radius: 20px;
+            aspect-ratio: 16/9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .work-item:hover {
+            border-color: #0070f3;
+            transform: scale(1.02);
+        }
+
+        .work-item i {
+            font-size: 40px;
+            color: #00ff94;
+            margin-bottom: 10px;
+        }
+
+        /* КНОПКА СВЯЗИ */
+        .cta-box {
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .btn-tg {
+            display: inline-block;
+            background: #0070f3;
+            color: #fff;
+            padding: 18px 45px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 18px;
+            text-decoration: none;
+            transition: racism 0.3s, background 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-tg:hover {
+            background: #00ff94;
+            color: #05070a;
+            box-shadow: 0 0 30px rgba(0, 255, 148, 0.4);
+        }
+
+        /* ДЕКОРАТИВНЫЙ ЗАДНИЙ ФОН (СВЕЧЕНИЕ) */
+        .glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 112, 243, 0.05) 0%, transparent 70%);
+            top: 10%;
+            left: -100px;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Привет, я Эмиль</h1>
-        <div class="subtitle">Видеомонтажер / Video Editor</div>
-        
-        <p>
-            Занимаюсь профессиональным монтажом видео более года. Моя главная специализация — 
-            создание динамичного, вовлекающего <strong>развлекательного контента</strong> (YouTube, Reels, Shorts, TikTok), который удерживает внимание зрителя с первой до последней секунды. 
-        </p>
-        
-        <p>
-            Также успешно работаю с многокамерным монтажом <strong>подкастов и интервью</strong>: бережно отношусь к повествованию, выстраиваю чистый звук, добавляю уместную инфографику и акценты. 
-        </p>
+    <div class="glow"></div>
 
-        <div class="skills-container">
-            <span class="skill-tag">Развлекательный контент</span>
-            <span class="skill-tag">Подкасты & Интервью</span>
-            <span class="skill-tag green">YouTube / Shorts / Reels</span>
-            <span class="skill-tag green">Динамичный монтаж</span>
-            <span class="skill-tag">Саунд-дизайн & Цветокоррекция</span>
+    <section class="hero reveal">
+        <h1 class="gradient-nick">AmahitoS</h1>
+        <div class="hero-subtitle">Video Editor Portfolio</div>
+        <p class="hero-descr">Создаю динамичный развлекательный контент и монтирую глубокие подкасты. Более года опыта в реализации крутых визуальных идей.</p>
+    </section>
+
+    <section id="skills">
+        <h2 class="section-title">Софт и навыки</h2>
+        <div class="carousel-wrapper">
+            <div class="carousel-track">
+                
+                <div class="app-card">
+                    <img src="https://placehold.co/100x100/000055/ffffff?text=Pr" class="app-icon" alt="Premiere Pro">
+                    <h3 class="apple-garamond">Adobe Premiere Pro</h3>
+                    <p>Монтирую долго и уверенно. С легкостью справляюсь с тяжелыми проектами, делаю длинные видео и многокамерный монтаж.</p>
+                </div>
+
+                <div class="app-card">
+                    <img src="https://placehold.co/100x100/550055/ffffff?text=Ae" class="app-icon" alt="After Effects">
+                    <h3 class="apple-garamond">Adobe After Effects</h3>
+                    <p>Недавно погрузился, сейчас активно изучаю. Создаю качественные анимации и графику для удержания внимания зрителя.</p>
+                </div>
+
+                <div class="app-card">
+                    <img src="https://placehold.co/100x100/005555/ffffff?text=Ps" class="app-icon" alt="Photoshop">
+                    <h3 class="apple-garamond">Adobe Photoshop</h3>
+                    <p>Базовые знания и отличное чувство стиля. Использую для цветокоррекции, разработки превью и графических элементов.</p>
+                </div>
+
+                <div class="app-card">
+                    <img src="https://placehold.co/100x100/222222/ffffff?text=Cc" class="app-icon" alt="CapCut">
+                    <h3 class="apple-garamond">CapCut</h3>
+                    <p>Спокойно владею, знаю приложение практически наизусть. Идеально для быстрой и стильной сборки Shorts, Reels и TikTok.</p>
+                </div>
+
+            </div>
         </div>
+    </section>
 
-        <a href="https://t.me/твой_ник" target="_blank" class="btn">Обсудить проект</a>
-    </div>
+    <section id="advantages">
+        <h2 class="section-title">Профессиональный подход</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Креативность</h3>
+                <p>Не просто выполняю ТЗ, а предлагаю крутые идеи, которые помогают развиваться каналу или компании.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Правки — бесплатно</h3>
+                <p>Спокойно и адекватно отношусь к правкам. Переделываю работу до тех пор, пока результат не станет идеальным.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Ответственность</h3>
+                <p>Умею брать на себя ответственность за проект. Жестко соблюдаю дедлайны и никогда не пропадаю.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Коммуникация</h3>
+                <p>Максимально коммуникабельный. Буду рад учиться и подстраиваться под уникальный стиль вашей компании.</p>
+            </div>
+        </div>
+    </section>
 
+    <section id="portfolio">
+        <h2 class="section-title">Примеры работ</h2>
+        <div class="work-grid">
+            <div class="work-item">
+                <i class="fa-solid fa-play"></i>
+                <span style="font-weight: 500;">Развлекательный контент</span>
+            </div>
+            <div class="work-item">
+                <i class="fa-solid fa-microphone"></i>
+                <span style="font-weight: 500;">Подкасты и Интервью</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="cta-box">
+        <h2 style="font-size: 48px; margin-bottom: 20px;">Запустим проект?</h2>
+        <p style="color: #86868b; margin-bottom: 40px; font-size: 18px;">Свяжитесь со мной прямо сейчас, чтобы обсудить детали вашего видео.</p>
+        <a href="#" class="btn-tg">Написать в Telegram</a>
+    </section>
+
+    <script>
+        const sections = document.querySelectorAll('section');
+
+        const observerOptions = {
+            root: null,
+            threshold: 0.15, // Блок начнет появляться, когда покажется на 15%
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const sectionObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal');
+                    // Отключаем слежку за блоком после того, как он один раз появился
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            // Главный экран показываем сразу, остальные — при скролле
+            if (section.classList.contains('hero')) {
+                section.classList.add('reveal');
+            } else {
+                sectionObserver.observe(section);
+            }
+        });
+    </script>
 </body>
 </html>
