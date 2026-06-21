@@ -28,20 +28,20 @@
             overflow-x: hidden;
         }
 
-        /* БЕЛЫЕ СВЕТЯЩИЕСЯ БЛИКИ ПО УГЛАМ (СТИЛЬ GOOGLE / APPLE) */
+        /* БЕЛЫЕ СВЕТЯЩИЕСЯ БЛИКИ ПО УГЛАМ (СТИЛЬ GOOGLE / APPLE) - СДЕЛАНЫ НАМНОГО ЯРЧЕ */
         .corner-glow {
             position: fixed;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
-            filter: blur(40px);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, transparent 70%);
+            filter: blur(60px);
             pointer-events: none;
             z-index: 1;
         }
-        .glow-top-left { top: -150px; left: -150px; }
-        .glow-top-right { top: -150px; right: -150px; }
-        .glow-bottom-left { bottom: -150px; left: -150px; }
-        .glow-bottom-right { bottom: -150px; right: -150px; }
+        .glow-top-left { top: -200px; left: -200px; }
+        .glow-top-right { top: -200px; right: -200px; }
+        .glow-bottom-left { bottom: -200px; left: -200px; }
+        .glow-bottom-right { bottom: -200px; right: -200px; }
 
         /* ЧИСТОЕ БЕЛОЕ НЕОНОВОЕ СВЕЧЕНИЕ ДЛЯ АНГЛИЙСКИХ СЛОВ В КАРУСЕЛИ */
         .glow-text {
@@ -256,7 +256,6 @@
         }
 
         /* ПОРТФОЛИО */
-        /* 4. КИНЕМАТОГРАФИЧНЫЙ СЛАЙДЕР С ВИДЕО */
         .slider-container {
             position: relative;
             display: flex;
@@ -276,7 +275,6 @@
         .slider-track {
             display: flex;
             align-items: center;
-            /* Плавный инерционный переход при перелистывании */
             transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
             gap: 30px;
             width: max-content;
@@ -284,7 +282,7 @@
 
         /* Обычное (боковое) видео: меньше, темнее, без свечения */
         .video-slide {
-            width: 550px; /* Фиксированная ширина для идеального просчета центра */
+            width: 550px;
             aspect-ratio: 16/9;
             background: #0f1319;
             border-radius: 24px;
@@ -354,8 +352,8 @@
                 font-size: 16px;
             }
             .corner-glow {
-                width: 250px;
-                height: 250px; /* Уменьшаем блики на мобильных устройствах */
+                width: 300px;
+                height: 300px;
             }
         }
 
@@ -383,7 +381,7 @@
             box-shadow: 0 0 30px rgba(0, 255, 148, 0.4);
         }
 
-        /* СДЕРЖАННАЯ ПОБУКВЕННАЯ АНИМАЦИЯ (Subtle Bounce) */
+        /* СДЕРЖАННАЯ ПОБУКВЕННАЯ АНИМАЦИЯ */
         .bounce-text {
             display: flex;
             justify-content: center;
@@ -397,7 +395,7 @@
             animation: elegantBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.12) forwards;
         }
 
-        /* Индивидуальные задержки для букв AmahitoS */
+        /* Задержки анимации */
         .gradient-nick span:nth-child(1) { animation-delay: 0.04s; }
         .gradient-nick span:nth-child(2) { animation-delay: 0.08s; }
         .gradient-nick span:nth-child(3) { animation-delay: 0.12s; }
@@ -407,7 +405,6 @@
         .gradient-nick span:nth-child(7) { animation-delay: 0.28s; }
         .gradient-nick span:nth-child(8) { animation-delay: 0.32s; }
 
-        /* Индивидуальные задержки для букв Video Editor Portfolio */
         .hero-subtitle span:nth-child(1) { animation-delay: 0.38s; }
         .hero-subtitle span:nth-child(2) { animation-delay: 0.40s; }
         .hero-subtitle span:nth-child(3) { animation-delay: 0.42s; }
@@ -431,30 +428,19 @@
         .hero-subtitle span:nth-child(21) { animation-delay: 0.78s; }
         .hero-subtitle span:nth-child(22) { animation-delay: 0.80s; }
 
-        /* Математика аккуратного пружинящего эффекта */
         @keyframes elegantBounce {
-            0% {
-                opacity: 0;
-                transform: translateY(12px) scale(0.93);
-            }
-            60% {
-                opacity: 1;
-                transform: translateY(-2px) scale(1.01);
-            }
-            85% {
-                transform: translateY(0.5px) scale(0.99);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            0% { opacity: 0; transform: translateY(12px) scale(0.93); }
+            60% { opacity: 1; transform: translateY(-2px) scale(1.01); }
+            85% { transform: translateY(0.5px) scale(0.99); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
+        /* ЦЕНТРАЛЬНЫЙ ФОНОВЫЙ БЛИК - ТОЖЕ УСИЛЕН */
         .glow {
             position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(0, 112, 243, 0.05) 0%, transparent 70%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 112, 243, 0.15) 0%, transparent 70%);
             top: 10%;
             left: -100px;
             pointer-events: none;
@@ -654,12 +640,22 @@
 
         function createVideoSlide(url, num) {
             const slide = document.createElement('div');
-            slide.className = 'video-slide';
-            slide.innerHTML = `
-                <video preload="metadata" playsinline>
-                    <source src="${url}" type="video/mp4">
-                </video>
-            `;
+            // ИСПРАВЛЕНИЕ БАГА: Первому загруженному видео сразу даем класс 'active'
+            if (num === 1) {
+                slide.className = 'video-slide active';
+                slide.innerHTML = `
+                    <video preload="metadata" playsinline controls>
+                        <source src="${url}" type="video/mp4">
+                    </video>
+                `;
+            } else {
+                slide.className = 'video-slide';
+                slide.innerHTML = `
+                    <video preload="metadata" playsinline>
+                        <source src="${url}" type="video/mp4">
+                    </video>
+                `;
+            }
             track.appendChild(slide);
         }
 
