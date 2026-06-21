@@ -22,25 +22,30 @@
         }
 
         body {
-            background-color: #05070a; /* Ультра-темный фон */
+            background-color: #05070a;
             color: #f5f5f7;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
 
-        /* СЕКЦИИ САЙТА (ТЕПЕРЬ ОНИ ЛИСТАЮТСЯ ВНИЗ) */
+        /* ЭФФЕКТ СВЕЧЕНИЯ ДЛЯ АНГЛИЙСКОГО ТЕКСТА */
+        .glow-text {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 255, 148, 0.6), 0 0 20px rgba(0, 112, 243, 0.4);
+        }
+
+        /* СЕКЦИИ САЙТА С КРУГОВОЙ АНИМАЦИЕЙ СКРОЛЛА */
         section {
             max-width: 1100px;
             margin: 0 auto;
             padding: 100px 20px;
             position: relative;
-            /* Начальное состояние для анимации появления */
             opacity: 0;
             transform: translateY(40px);
-            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Класс, который JS добавит при прокрутке */
+        /* Класс видимости (работает в обе стороны) */
         section.reveal {
             opacity: 1;
             transform: translateY(0);
@@ -54,10 +59,8 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding-top: 40px;
         }
 
-        /* Никнейм с зелено-синим градиентом */
         .gradient-nick {
             font-size: 96px;
             font-weight: 700;
@@ -68,12 +71,14 @@
             -webkit-text-fill-color: transparent;
         }
 
+        /* Сделали Video Editor зеленым и светящимся */
         .hero-subtitle {
             font-family: 'EB Garamond', serif;
             font-style: italic;
-            font-size: 32px;
-            color: #86868b;
+            font-size: 36px;
+            color: #00ff94;
             margin-bottom: 30px;
+            text-shadow: 0 0 15px rgba(0, 255, 148, 0.7);
         }
 
         .hero-descr {
@@ -83,47 +88,55 @@
             line-height: 1.6;
         }
 
-        /* ЗАГОЛОВКИ СЕКЦИЙ */
         .section-title {
             font-size: 40px;
             font-weight: 700;
             margin-bottom: 50px;
-            position: relative;
-            display: inline-block;
         }
 
-        /* КАРУСЕЛЬ ПРИЛОЖЕНИЙ (ШТОРКА) */
+        /* АВТОМАТИЧЕСКАЯ БЕСКОНЕЧНАЯ КАРУСЕЛЬ (СПРАВА НАЛЕВО) */
         .carousel-wrapper {
             width: 100%;
-            overflow-x: auto;
-            padding: 20px 0;
-            scrollbar-width: none; /* Скрываем скроллбар в Firefox */
-        }
-
-        .carousel-wrapper::-webkit-scrollbar {
-            display: none; /* Скрываем скроллбар в Chrome/Safari */
+            overflow: hidden;
+            padding: 30px 0;
+            position: relative;
         }
 
         .carousel-track {
             display: flex;
             gap: 25px;
+            width: max-content;
+            animation: scrollMarquee 25s linear infinite;
         }
 
+        /* Остановка карусели при наведении */
+        .carousel-wrapper:hover .carousel-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes scrollMarquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-50% - 12.5px)); } /* Смещение на половину трека для бесшовности */
+        }
+
+        /* КАРТОЧКИ ПРИЛОЖЕНИЙ С ПОДСВЕТКОЙ И УВЕЛИЧЕНИЕМ */
         .app-card {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 24px;
-            min-width: 300px;
-            width: 300px;
+            min-width: 320px;
+            width: 320px;
             padding: 35px;
-            transition: all 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s, box-shadow 0.4s, background 0.4s;
             backdrop-filter: blur(10px);
         }
 
+        /* Эффект выделения (увеличение + неоновый бэкграунд) */
         .app-card:hover {
-            transform: translateY(-10px);
+            transform: scale(1.08);
             border-color: #00ff94;
-            background: rgba(0, 255, 148, 0.02);
+            box-shadow: 0 0 35px rgba(0, 255, 148, 0.3);
+            background: rgba(0, 255, 148, 0.03);
         }
 
         .app-icon {
@@ -139,8 +152,7 @@
             font-family: 'EB Garamond', serif;
             font-style: italic;
             font-weight: 700;
-            font-size: 24px;
-            color: #ffffff;
+            font-size: 26px;
             margin-bottom: 12px;
         }
 
@@ -150,7 +162,7 @@
             line-height: 1.6;
         }
 
-        /* БЛОК КАЧЕСТВ */
+        /* БЛОК КАЧЕСТВ (ПЕРЕВЕДЕН НА АНГЛИЙСКИЙ + ХОВЕРЫ) */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -163,12 +175,20 @@
             padding: 30px;
             border-radius: 20px;
             border-top: 3px solid #0070f3;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s, border-color 0.4s;
+        }
+
+        /* Выделение карточек качеств */
+        .feature-card:hover {
+            transform: scale(1.08);
+            border-color: #0070f3;
+            box-shadow: 0 0 35px rgba(0, 112, 243, 0.3);
+            background: rgba(0, 112, 243, 0.02);
         }
 
         .feature-card h3 {
-            font-size: 18px;
-            color: #00ff94;
-            margin-bottom: 10px;
+            font-size: 20px;
+            margin-bottom: 12px;
         }
 
         .feature-card p {
@@ -177,7 +197,7 @@
             line-height: 1.5;
         }
 
-        /* ПОРТФОЛИО (ВИДЕО) */
+        /* ПОРТФОЛИО */
         .work-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -200,7 +220,6 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             cursor: pointer;
             transition: all 0.3s;
-            position: relative;
         }
 
         .work-item:hover {
@@ -229,7 +248,7 @@
             font-weight: 600;
             font-size: 18px;
             text-decoration: none;
-            transition: racism 0.3s, background 0.3s, box-shadow 0.3s;
+            transition: all 0.3s ease;
         }
 
         .btn-tg:hover {
@@ -238,7 +257,6 @@
             box-shadow: 0 0 30px rgba(0, 255, 148, 0.4);
         }
 
-        /* ДЕКОРАТИВНЫЙ ЗАДНИЙ ФОН (СВЕЧЕНИЕ) */
         .glow {
             position: absolute;
             width: 500px;
@@ -254,7 +272,7 @@
 
     <div class="glow"></div>
 
-    <section class="hero reveal">
+    <section class="hero">
         <h1 class="gradient-nick">AmahitoS</h1>
         <div class="hero-subtitle">Video Editor Portfolio</div>
         <p class="hero-descr">Создаю динамичный развлекательный контент и монтирую глубокие подкасты. Более года опыта в реализации крутых визуальных идей.</p>
@@ -267,25 +285,49 @@
                 
                 <div class="app-card">
                     <img src="https://placehold.co/100x100/000055/ffffff?text=Pr" class="app-icon" alt="Premiere Pro">
-                    <h3 class="apple-garamond">Adobe Premiere Pro</h3>
+                    <h3 class="apple-garamond glow-text">Adobe Premiere Pro</h3>
                     <p>Монтирую долго и уверенно. С легкостью справляюсь с тяжелыми проектами, делаю длинные видео и многокамерный монтаж.</p>
                 </div>
 
                 <div class="app-card">
                     <img src="https://placehold.co/100x100/550055/ffffff?text=Ae" class="app-icon" alt="After Effects">
-                    <h3 class="apple-garamond">Adobe After Effects</h3>
+                    <h3 class="apple-garamond glow-text">Adobe After Effects</h3>
                     <p>Недавно погрузился, сейчас активно изучаю. Создаю качественные анимации и графику для удержания внимания зрителя.</p>
                 </div>
 
                 <div class="app-card">
                     <img src="https://placehold.co/100x100/005555/ffffff?text=Ps" class="app-icon" alt="Photoshop">
-                    <h3 class="apple-garamond">Adobe Photoshop</h3>
+                    <h3 class="apple-garamond glow-text">Adobe Photoshop</h3>
                     <p>Базовые знания и отличное чувство стиля. Использую для цветокоррекции, разработки превью и графических элементов.</p>
                 </div>
 
                 <div class="app-card">
                     <img src="https://placehold.co/100x100/222222/ffffff?text=Cc" class="app-icon" alt="CapCut">
-                    <h3 class="apple-garamond">CapCut</h3>
+                    <h3 class="apple-garamond glow-text">CapCut</h3>
+                    <p>Спокойно владею, знаю приложение практически наизусть. Идеально для быстрой и стильной сборки Shorts, Reels и TikTok.</p>
+                </div>
+
+                <div class="app-card">
+                    <img src="https://placehold.co/100x100/000055/ffffff?text=Pr" class="app-icon" alt="Premiere Pro">
+                    <h3 class="apple-garamond glow-text">Adobe Premiere Pro</h3>
+                    <p>Монтирую долго и уверенно. С легкостью справляюсь с тяжелыми проектами, делаю длинные видео и многокамерный монтаж.</p>
+                </div>
+
+                <div class="app-card">
+                    <img src="https://placehold.co/100x100/550055/ffffff?text=Ae" class="app-icon" alt="After Effects">
+                    <h3 class="apple-garamond glow-text">Adobe After Effects</h3>
+                    <p>Недавно погрузился, сейчас активно изучаю. Создаю качественные анимации и графику для удержания внимания зрителя.</p>
+                </div>
+
+                <div class="app-card">
+                    <img src="https://placehold.co/100x100/005555/ffffff?text=Ps" class="app-icon" alt="Photoshop">
+                    <h3 class="apple-garamond glow-text">Adobe Photoshop</h3>
+                    <p>Базовые знания и отличное чувство стиля. Использую для цветокоррекции, разработки превью и графических элементов.</p>
+                </div>
+
+                <div class="app-card">
+                    <img src="https://placehold.co/100x100/222222/ffffff?text=Cc" class="app-icon" alt="CapCut">
+                    <h3 class="apple-garamond glow-text">CapCut</h3>
                     <p>Спокойно владею, знаю приложение практически наизусть. Идеально для быстрой и стильной сборки Shorts, Reels и TikTok.</p>
                 </div>
 
@@ -297,19 +339,19 @@
         <h2 class="section-title">Профессиональный подход</h2>
         <div class="features-grid">
             <div class="feature-card">
-                <h3>Креативность</h3>
+                <h3 class="glow-text">Creativity</h3>
                 <p>Не просто выполняю ТЗ, а предлагаю крутые идеи, которые помогают развиваться каналу или компании.</p>
             </div>
             <div class="feature-card">
-                <h3>Правки — бесплатно</h3>
-                <p>Спокойно и адекватно отношусь к правкам. Переделываю работу до тех пор, пока результат не станет идеальным.</p>
+                <h3><span class="glow-text">Free Revisions</span></h3>
+                <p>Спокойно и адекватно отношусь к правкам. Переделываю работу бесплатно до тех пор, пока результат не станет идеальным.</p>
             </div>
             <div class="feature-card">
-                <h3>Ответственность</h3>
+                <h3 class="glow-text">Responsibility</h3>
                 <p>Умею брать на себя ответственность за проект. Жестко соблюдаю дедлайны и никогда не пропадаю.</p>
             </div>
             <div class="feature-card">
-                <h3>Коммуникация</h3>
+                <h3 class="glow-text">Communication</h3>
                 <p>Максимально коммуникабельный. Буду рад учиться и подстраиваться под уникальный стиль вашей компании.</p>
             </div>
         </div>
@@ -340,27 +382,23 @@
 
         const observerOptions = {
             root: null,
-            threshold: 0.15, // Блок начнет появляться, когда покажется на 15%
-            rootMargin: "0px 0px -50px 0px"
+            threshold: 0.1, 
+            rootMargin: "0px 0px -40px 0px"
         };
 
-        const sectionObserver = new IntersectionObserver((entries, observer) => {
+        const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('reveal');
-                    // Отключаем слежку за блоком после того, как он один раз появился
-                    observer.unobserve(entry.target); 
+                } else {
+                    // Удаляем класс, когда блок уходит из экрана, чтобы анимация сработала снова
+                    entry.target.classList.remove('reveal'); 
                 }
             });
         }, observerOptions);
 
         sections.forEach(section => {
-            // Главный экран показываем сразу, остальные — при скролле
-            if (section.classList.contains('hero')) {
-                section.classList.add('reveal');
-            } else {
-                sectionObserver.observe(section);
-            }
+            sectionObserver.observe(section);
         });
     </script>
 </body>
