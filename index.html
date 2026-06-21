@@ -29,12 +29,10 @@
         }
 
         /* ЧИСТОЕ БЕЛОЕ НЕОНОВОЕ СВЕЧЕНИЕ ДЛЯ АНГЛИЙСКИХ СЛОВ */
-       .glow-text {
-    color: #ffffff;
-    text-shadow:
-        0 0 60px rgba(255,255,255,0.7),
-        0 0 100px rgba(255,255,255,0.35);
-}
+        .glow-text {
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
+        }
 
         /* СЕКЦИИ САЙТА С АНИМАЦИЕЙ В ОБЕ СТОРОНЫ */
         section {
@@ -43,7 +41,7 @@
             padding: 100px 20px;
             position: relative;
             opacity: 0;
-            transform: translateY(40px);
+            transform: translateY(30px);
             transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
@@ -62,17 +60,16 @@
             text-align: center;
         }
 
-        /* Ник с градиентом и многослойным Deep Glow свечением */
+        /* Исправленный ник: сочный неоновый цвет + глубокий многослойный Deep Glow */
         .gradient-nick {
             font-size: 96px;
             font-weight: 700;
             letter-spacing: -2px;
             margin-bottom: 15px;
-            background: linear-gradient(135deg, #00ff94 0%, #0070f3 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 35px rgba(0, 112, 243, 0.5)) 
-                    drop-shadow(0 0 70px rgba(0, 255, 148, 0.3));
+            color: #00ff94;
+            text-shadow: 0 0 10px #00ff94, 
+                         0 0 25px #0070f3, 
+                         0 0 50px rgba(0, 255, 148, 0.5);
         }
 
         /* Подзаголовок: зеленый цвет + сочное свечение */
@@ -82,7 +79,7 @@
             font-size: 38px;
             color: #00ff94;
             margin-bottom: 30px;
-            text-shadow: 0 0 70px rgba(0, 255, 148, 0.6), 0 0 25px rgba(0, 255, 148, 0.3);
+            text-shadow: 0 0 12px rgba(0, 255, 148, 0.8), 0 0 30px rgba(0, 255, 148, 0.4);
         }
 
         .hero-descr {
@@ -127,7 +124,7 @@
         .app-card {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
+            border-radius: 24px;
             min-width: 320px;
             width: 320px;
             padding: 35px;
@@ -145,7 +142,7 @@
 
         .app-icon {
             width: 100px;
-            height:100px;
+            height: 100px;
             margin-bottom: 25px;
             object-fit: contain;
         }
@@ -164,7 +161,7 @@
             line-height: 1.6;
         }
 
-     /* КАРТОЧКИ С ПОСЛЕДОВАТЕЛЬНОЙ ЗАЛИВКОЙ ПО КРУГУ */
+        /* КАРТОЧКИ С ИСПРАВЛЕННОЙ ЗАЛИВКОЙ ПО КРУГУ */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -176,31 +173,30 @@
             padding: 30px;
             border-radius: 20px;
             position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.03); /* Едва заметная базовая рамка */
+            overflow: hidden; /* Строго сдерживает линии внутри закруглений */
+            border: 1px solid rgba(255, 255, 255, 0.04);
             transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s, background 0.4s;
         }
 
-        /* Наведение на карточку */
+        /* При наведении карточка плавно светится снаружи (свечение больше не режется!) */
         .feature-card:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(0, 112, 243, 0.2);
+            box-shadow: 0 0 35px rgba(0, 112, 243, 0.3);
             background: rgba(0, 112, 243, 0.03);
         }
 
-        /* Создаем 4 линии для каждой стороны рамки */
+        /* Создаем чистые линии без теней для идеального контура */
         .feature-card::before,
         .feature-card::after,
-        .feature-card-line::before,
-        .feature-card-line::after {
+        .feature-card-span-1,
+        .feature-card-span-2 {
             content: '';
             position: absolute;
             background: #0070f3;
-            box-shadow: 0 0 8px #0070f3;
-            transition: all 0.15s linear;
+            transition: all 0.12s linear;
         }
 
-        /* 1. Верхняя линия (идет из правого угла влево) */
+        /* 1. Верхняя грань (вправо -> влево) */
         .feature-card::before {
             top: 0;
             right: 0;
@@ -209,10 +205,10 @@
         }
         .feature-card:hover::before {
             width: 100%;
-            transition: width 0.12s linear;
+            transition: width 0.1s linear;
         }
 
-        /* 2. Левая линия (идет сверху вниз) */
+        /* 2. Левая грань (сверху -> вниз) */
         .feature-card::after {
             top: 0;
             left: 0;
@@ -221,34 +217,28 @@
         }
         .feature-card:hover::after {
             height: 100%;
-            transition: height 0.12s linear 0.12s; /* Задержка, пока идет верхняя */
+            transition: height 0.1s linear 0.1s;
         }
 
-        /* 3. Нижняя линия (идет слева направо) */
+        /* 3. Нижная грань (влево -> вправо) */
         .feature-card-span-1 {
-            position: absolute;
             bottom: 0;
             left: 0;
             width: 0;
             height: 2px;
-            background: #0070f3;
-            box-shadow: 0 0 8px #0070f3;
-            transition: width 0.12s linear 0.24s; /* Задержка */
+            transition: width 0.1s linear 0.2s;
         }
         .feature-card:hover .feature-card-span-1 {
             width: 100%;
         }
 
-        /* 4. Правая линия (идет снизу вверх обратно в правый угол) */
+        /* 4. Правая грань (снизу -> вверх в исходную точку) */
         .feature-card-span-2 {
-            position: absolute;
             bottom: 0;
             right: 0;
             width: 2px;
             height: 0;
-            background: #0070f3;
-            box-shadow: 0 0 8px #0070f3;
-            transition: height 0.12s linear 0.36s; /* Задержка */
+            transition: height 0.1s linear 0.3s;
         }
         .feature-card:hover .feature-card-span-2 {
             height: 100%;
@@ -258,6 +248,18 @@
             position: relative;
             z-index: 2;
         }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: #a1a1a6;
+            line-height: 1.5;
+        }
+
         /* ПОРТФОЛИО */
         .work-grid {
             display: grid;
@@ -267,8 +269,8 @@
 
         @media (max-width: 768px) {
             .work-grid { grid-template-columns: 1fr; }
-            .gradient-nick { font-size: 64px; }
-            .hero-subtitle { font-size: 28px; }
+            .gradient-nick span { font-size: 64px; }
+            .hero-subtitle span { font-size: 26px; }
         }
 
         .work-item {
@@ -319,16 +321,7 @@
             box-shadow: 0 0 30px rgba(0, 255, 148, 0.4);
         }
 
-        .glow {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(0, 112, 243, 0.05) 0%, transparent 70%);
-            top: 10%;
-            left: -100px;
-            pointer-events: none;
-        }
-    /* Настройки для побуквенной анимации */
+        /* ПОБУКВЕННАЯ СДЕРЖАННАЯ АНИМАЦИЯ (Subtle Bounce) */
         .bounce-text {
             display: flex;
             justify-content: center;
@@ -338,61 +331,71 @@
         .bounce-text span {
             display: inline-block;
             opacity: 0;
-            transform: translateY(100px) scale(0.3); /* Начальная позиция: глубоко снизу и уменьшенные */
-            animation: bounceInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            transform: translateY(25px) scale(0.85); /* Короткая дистанция, аккуратный взлет */
+            animation: elegantBounce 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
         }
 
-        /* Тайминги для букв AmahitoS (каждая следующая буква вылетает чуть позже) */
-        .gradient-nick span:nth-child(1) { animation-delay: 0.1s; }
-        .gradient-nick span:nth-child(2) { animation-delay: 0.15s; }
-        .gradient-nick span:nth-child(3) { animation-delay: 0.2s; }
-        .gradient-nick span:nth-child(4) { animation-delay: 0.25s; }
-        .gradient-nick span:nth-child(5) { animation-delay: 0.3s; }
-        .gradient-nick span:nth-child(6) { animation-delay: 0.35s; }
-        .gradient-nick span:nth-child(7) { animation-delay: 0.4s; }
-        .gradient-nick span:nth-child(8) { animation-delay: 0.45s; }
+        /* Задержки вылета букв для AmahitoS */
+        .gradient-nick span:nth-child(1) { animation-delay: 0.05s; }
+        .gradient-nick span:nth-child(2) { animation-delay: 0.10s; }
+        .gradient-nick span:nth-child(3) { animation-delay: 0.15s; }
+        .gradient-nick span:nth-child(4) { animation-delay: 0.20s; }
+        .gradient-nick span:nth-child(5) { animation-delay: 0.25s; }
+        .gradient-nick span:nth-child(6) { animation-delay: 0.30s; }
+        .gradient-nick span:nth-child(7) { animation-delay: 0.35s; }
+        .gradient-nick span:nth-child(8) { animation-delay: 0.40s; }
 
-        /* Тайминги для букв Video Editor Portfolio (начинают вылетать после ника) */
-        .hero-subtitle span:nth-child(1) { animation-delay: 0.5s; }
-        .hero-subtitle span:nth-child(2) { animation-delay: 0.53s; }
-        .hero-subtitle span:nth-child(3) { animation-delay: 0.56s; }
-        .hero-subtitle span:nth-child(4) { animation-delay: 0.59s; }
-        .hero-subtitle span:nth-child(5) { animation-delay: 0.62s; }
-        .hero-subtitle span:nth-child(6) { animation-delay: 0.65s; } /* пробел */
-        .hero-subtitle span:nth-child(7) { animation-delay: 0.68s; }
-        .hero-subtitle span:nth-child(8) { animation-delay: 0.71s; }
-        .hero-subtitle span:nth-child(9) { animation-delay: 0.74s; }
-        .hero-subtitle span:nth-child(10) { animation-delay: 0.77s; }
-        .hero-subtitle span:nth-child(11) { animation-delay: 0.8s; }
-        .hero-subtitle span:nth-child(12) { animation-delay: 0.83s; }
-        .hero-subtitle span:nth-child(13) { animation-delay: 0.86s; } /* пробел */
-        .hero-subtitle span:nth-child(14) { animation-delay: 0.89s; }
-        .hero-subtitle span:nth-child(15) { animation-delay: 0.92s; }
-        .hero-subtitle span:nth-child(16) { animation-delay: 0.95s; }
-        .hero-subtitle span:nth-child(17) { animation-delay: 0.98s; }
-        .hero-subtitle span:nth-child(18) { animation-delay: 1.01s; }
-        .hero-subtitle span:nth-child(19) { animation-delay: 1.04s; }
-        .hero-subtitle span:nth-child(20) { animation-delay: 1.07s; }
-        .hero-subtitle span:nth-child(21) { animation-delay: 1.1s; }
-        .hero-subtitle span:nth-child(22) { animation-delay: 1.13s; }
+        /* Задержки вылета букв для Video Editor Portfolio */
+        .hero-subtitle span:nth-child(1) { animation-delay: 0.45s; }
+        .hero-subtitle span:nth-child(2) { animation-delay: 0.48s; }
+        .hero-subtitle span:nth-child(3) { animation-delay: 0.51s; }
+        .hero-subtitle span:nth-child(4) { animation-delay: 0.54s; }
+        .hero-subtitle span:nth-child(5) { animation-delay: 0.57s; }
+        .hero-subtitle span:nth-child(6) { animation-delay: 0.60s; }
+        .hero-subtitle span:nth-child(7) { animation-delay: 0.63s; }
+        .hero-subtitle span:nth-child(8) { animation-delay: 0.66s; }
+        .hero-subtitle span:nth-child(9) { animation-delay: 0.69s; }
+        .hero-subtitle span:nth-child(10) { animation-delay: 0.72s; }
+        .hero-subtitle span:nth-child(11) { animation-delay: 0.75s; }
+        .hero-subtitle span:nth-child(12) { animation-delay: 0.78s; }
+        .hero-subtitle span:nth-child(13) { animation-delay: 0.81s; }
+        .hero-subtitle span:nth-child(14) { animation-delay: 0.84s; }
+        .hero-subtitle span:nth-child(15) { animation-delay: 0.87s; }
+        .hero-subtitle span:nth-child(16) { animation-delay: 0.90s; }
+        .hero-subtitle span:nth-child(17) { animation-delay: 0.93s; }
+        .hero-subtitle span:nth-child(18) { animation-delay: 0.96s; }
+        .hero-subtitle span:nth-child(19) { animation-delay: 0.99s; }
+        .hero-subtitle span:nth-child(20) { animation-delay: 1.02s; }
+        .hero-subtitle span:nth-child(21) { animation-delay: 1.05s; }
+        .hero-subtitle span:nth-child(22) { animation-delay: 1.08s; }
 
-        /* Математика пружинящего вылета (Bounce Effect) */
-        @keyframes bounceInUp {
+        /* Математика уменьшенного пружинящего эффекта */
+        @keyframes elegantBounce {
             0% {
                 opacity: 0;
-                transform: translateY(100px) scale(0.3);
+                transform: translateY(25px) scale(0.85);
             }
             60% {
                 opacity: 1;
-                transform: translateY(-15px) scale(1.05); /* Слегка подлетает выше нужного */
+                transform: translateY(-4px) scale(1.02); /* Минимальный подлет вверх */
             }
-            80% {
-                transform: translateY(5px) scale(0.98); /* Немного опускается назад */
+            85% {
+                transform: translateY(1px) scale(0.99);
             }
             100% {
                 opacity: 1;
-                transform: translateY(0) scale(1); /* Встает идеально на место */
+                transform: translateY(0) scale(1); /* Плавная фиксация */
             }
+        }
+
+        .glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 112, 243, 0.05) 0%, transparent 70%);
+            top: 10%;
+            left: -100px;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -400,7 +403,7 @@
 
     <div class="glow"></div>
 
- <section class="hero">
+    <section class="hero">
         <h1 class="gradient-nick bounce-text">
             <span>A</span><span>m</span><span>a</span><span>h</span><span>i</span><span>t</span><span>o</span><span>S</span>
         </h1>
@@ -418,49 +421,49 @@
             <div class="carousel-track">
                 
                 <div class="app-card">
-                    <img src="pr.png" class="app-icon" alt="Premiere Pro">
+                    <img src="premiere.png" class="app-icon" alt="Premiere Pro">
                     <h3 class="apple-garamond glow-text">Adobe Premiere Pro</h3>
                     <p>Монтирую долго и уверенно. С легкостью справляюсь с тяжелыми проектами, делаю длинные видео и многокамерный монтаж.</p>
                 </div>
 
                 <div class="app-card">
-                    <img src="ae.png" class="app-icon" alt="After Effects">
+                    <img src="aftereffects.png" class="app-icon" alt="After Effects">
                     <h3 class="apple-garamond glow-text">Adobe After Effects</h3>
                     <p>Недавно погрузился, сейчас активно изучаю. Создаю качественные анимации и графику для удержания внимания зрителя.</p>
                 </div>
 
                 <div class="app-card">
-                    <img src="ps.png" class="app-icon" alt="Photoshop">
+                    <img src="photoshop.png" class="app-icon" alt="Photoshop">
                     <h3 class="apple-garamond glow-text">Adobe Photoshop</h3>
                     <p>Базовые знания и отличное чувство стиля. Использую для цветокоррекции, разработки превью и графических элементов.</p>
                 </div>
 
                 <div class="app-card">
-                    <img src="cc.png" class="app-icon" alt="CapCut">
+                    <img src="capcut.png" class="app-icon" alt="CapCut">
                     <h3 class="apple-garamond glow-text">CapCut</h3>
                     <p>Спокойно владею, знаю приложение практически наизусть. Идеально для быстрой и стильной сборки Shorts, Reels и TikTok.</p>
                 </div>
 
                 <div class="app-card">
-                    <img src="pr.png" class="app-icon" alt="Premiere Pro">
+                    <img src="premiere.png" class="app-icon" alt="Premiere Pro">
                     <h3 class="apple-garamond glow-text">Adobe Premiere Pro</h3>
                     <p>Монтирую долго и уверенно. С легкостью справляюсь с тяжелыми проектами, делаю длинные видео и многокамерный монтаж.</p>
                 </div>
 
                 <div class="app-card">
-                    <img src="ae.png" class="app-icon" alt="After Effects">
+                    <img src="aftereffects.png" class="app-icon" alt="After Effects">
                     <h3 class="apple-garamond glow-text">Adobe After Effects</h3>
                     <p>Недавно погрузился, сейчас активно изучаю. Создаю качественные анимации и графику для удержания внимания зрителя.</p>
                 </div>
 
                 <div class="app-card">
-                    <img src="ps.png" class="app-icon" alt="Photoshop">
+                    <img src="photoshop.png" class="app-icon" alt="Photoshop">
                     <h3 class="apple-garamond glow-text">Adobe Photoshop</h3>
                     <p>Базовые знания и отличное чувство стиля. Использую для цветокоррекции, разработки превью и графических элементов.</p>
                 </div>
 
                 <div class="app-card">
-                    <img src="cc.png" class="app-icon" alt="CapCut">
+                    <img src="capcut.png" class="app-icon" alt="CapCut">
                     <h3 class="apple-garamond glow-text">CapCut</h3>
                     <p>Спокойно владею, знаю приложение практически наизусть. Идеально для быстрой и стильной сборки Shorts, Reels и TikTok.</p>
                 </div>
@@ -473,18 +476,22 @@
         <h2 class="section-title">Профессиональный подход</h2>
         <div class="features-grid">
             <div class="feature-card">
+                <span class="feature-card-span-1"></span><span class="feature-card-span-2"></span>
                 <h3 class="glow-text">Creativity</h3>
                 <p>Не просто выполняю ТЗ, а предлагаю крутые идеи, которые помогают развиваться каналу или компании.</p>
             </div>
             <div class="feature-card">
+                <span class="feature-card-span-1"></span><span class="feature-card-span-2"></span>
                 <h3 class="glow-text">Free Revisions</h3>
                 <p>Спокойно и адекватно отношусь к правкам. Переделываю работу бесплатно до тех пор, пока результат не станет идеальным.</p>
             </div>
             <div class="feature-card">
+                <span class="feature-card-span-1"></span><span class="feature-card-span-2"></span>
                 <h3 class="glow-text">Responsibility</h3>
                 <p>Умею брать на себя ответственность за проект. Жестко соблюдаю дедлайны и никогда не пропадаю.</p>
             </div>
             <div class="feature-card">
+                <span class="feature-card-span-1"></span><span class="feature-card-span-2"></span>
                 <h3 class="glow-text">Communication</h3>
                 <p>Максимально коммуникабельный. Буду рад учиться и подстраиваться под уникальный стиль вашей компании.</p>
             </div>
@@ -509,7 +516,7 @@
         <h2 style="font-size: 48px; margin-bottom: 20px;">Запустим проект?</h2>
         <p style="color: #86868b; margin-bottom: 40px; font-size: 18px;">Свяжитесь со мной прямо сейчас, чтобы обсудить детали вашего видео.</p>
         
-        <a href="https://t.me/AmahitoS" class="btn-tg" target="_blank">Написать в Telegram</a>
+        <a href="https://t.me/ТВОЙ_НИКНЕЙМ" class="btn-tg" target="_blank">Написать в Telegram</a>
     </section>
 
     <script>
