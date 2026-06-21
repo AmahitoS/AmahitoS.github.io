@@ -240,40 +240,103 @@
         }
 
         /* ПОРТФОЛИО */
-        .work-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        @media (max-width: 768px) {
-            .work-grid { grid-template-columns: 1fr; }
-            .gradient-nick span { font-size: 64px; }
-            .hero-subtitle span { font-size: 26px; }
-        }
-
-        .work-item {
-            background: #0f1319;
-            border-radius: 20px;
-            aspect-ratio: 16/9;
+      /* 4. КИНЕМАТОГРАФИЧНЫЙ СЛАЙДЕР С ВИДЕО */
+        .slider-container {
+            position: relative;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .slider-track-wrapper {
+            overflow: hidden;
+            width: 90%;
+            padding: 30px 0;
+        }
+
+        .slider-track {
+            display: flex;
+            align-items: center;
+            /* Плавный инерционный переход при перелистывании */
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            gap: 30px;
+            width: max-content;
+        }
+
+        /* Обычное (боковое) видео: меньше, темнее, без свечения */
+        .video-slide {
+            width: 550px; /* Фиксированная ширина для идеального просчета центра */
+            aspect-ratio: 16/9;
+            background: #0f1319;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.03);
+            transition: transform 0.5s ease, opacity 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+            opacity: 0.25;
+            transform: scale(0.85);
+            position: relative;
             cursor: pointer;
-            transition: all 0.3s;
         }
 
-        .work-item:hover {
-            border-color: #0070f3;
-            transform: scale(1.02);
+        /* Активное видео по центру: горит ярко-зеленым неоном и увеличивается */
+        .video-slide.active {
+            opacity: 1;
+            transform: scale(1.03);
+            border-color: #00ff94;
+            box-shadow: 0 0 50px rgba(0, 255, 148, 0.35), 0 0 20px rgba(0, 255, 148, 0.2);
+            z-index: 5;
         }
 
-        .work-item i {
-            font-size: 40px;
-            color: #00ff94;
-            margin-bottom: 10px;
+        .video-slide video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* СТИЛЬНЫЕ КНОПКИ-СТРЕЛКИ */
+        .slider-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 10;
+            user-select: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .slider-btn:hover {
+            background: #00ff94;
+            color: #05070a;
+            border-color: #00ff94;
+            box-shadow: 0 0 20px #00ff94;
+            transform: scale(1.1);
+        }
+
+        .prev-btn { margin-right: -20px; }
+        .next-btn { margin-left: -20px; }
+
+        /* Адаптивность под мобилки */
+        @media (max-width: 768px) {
+            .video-slide {
+                width: 290px;
+            }
+            .slider-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 16px;
+            }
         }
 
         /* КНОПКА СВЯЗИ */
@@ -484,17 +547,19 @@
         </div>
     </section>
 
-    <section id="portfolio">
+   <section id="portfolio">
         <h2 class="section-title">Примеры работ</h2>
-        <div class="work-grid">
-            <div class="work-item">
-                <i class="fa-solid fa-play"></i>
-                <span style="font-weight: 500;">Развлекательный контент</span>
+        <div class="slider-container">
+            
+            <button class="slider-btn prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
+            
+            <div class="slider-track-wrapper">
+                <div class="slider-track" id="portfolio-track">
+                    </div>
             </div>
-            <div class="work-item">
-                <i class="fa-solid fa-microphone"></i>
-                <span style="font-weight: 500;">Подкасты и Интервью</span>
-            </div>
+            
+            <button class="slider-btn next-btn"><i class="fa-solid fa-chevron-right"></i></button>
+            
         </div>
     </section>
 
@@ -502,7 +567,7 @@
         <h2 style="font-size: 48px; margin-bottom: 20px;">Запустим проект?</h2>
         <p style="color: #86868b; margin-bottom: 40px; font-size: 18px;">Свяжитесь со мной прямо сейчас, чтобы обсудить детали вашего видео.</p>
         
-        <a href="https://t.me/ТВОЙ_НИКНЕЙМ" class="btn-tg" target="_blank">Написать в Telegram</a>
+        <a href="https://t.me/AmahitoS" class="btn-tg" target="_blank">Написать в Telegram</a>
     </section>
 
     <script>
@@ -527,6 +592,129 @@
         sections.forEach(section => {
             sectionObserver.observe(section);
         });
+        // АВТОМАТИЧЕСКИЙ СКАНИРОВЩИК ВИДЕОФАЙЛОВ И СЛАЙДЕР
+        const track = document.getElementById('portfolio-track');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        let currentIndex = 0;
+        let slides = [];
+
+        // Функция автоматического поиска файлов в твоем репозитории
+        async function autoLoadVideos() {
+            let index = 1;
+            const maxVideosCheck = 20; // Максимальный лимит видео (можно увеличить)
+
+            while (index <= maxVideosCheck) {
+                const videoUrl = `work${index}.mp4`;
+                try {
+                    // Делаем быстрый скрытый запрос, чтобы проверить, существует ли файл
+                    const response = await fetch(videoUrl, { method: 'HEAD' });
+                    if (response.ok) {
+                        // Если файл найден — создаем для него ячейку
+                        createVideoSlide(videoUrl, index);
+                        index++;
+                    } else {
+                        // Если файл не найден (например, после work3 идет пустота), останавливаем поиск
+                        break; 
+                    }
+                } catch (error) {
+                    break;
+                }
+            }
+
+            // Если ты еще не закинул файлы, покажем красивую заглушку-подсказку
+            if (track.children.length === 0) {
+                track.innerHTML = `<div class="video-slide active" style="display:flex; align-items:center; justify-content:center; text-align:center; padding:20px; color:#86868b; font-size:15px;">Загрузи файлы с именами work1.mp4, work2.mp4 в репозиторий GitHub, чтобы они появились здесь автоматически!</div>`;
+                return;
+            }
+
+            // Инициализируем управление слайдером, когда всё построилось
+            initSliderLogic();
+        }
+
+        // Функция сборки HTML структуры для видео
+        function createVideoSlide(url, num) {
+            const slide = document.createElement('div');
+            slide.className = 'video-slide';
+            // preload="metadata" — важная штука, чтобы сайт не зависал, качая все видео разом
+            slide.innerHTML = `
+                <video preload="metadata" playsinline>
+                    <source src="${url}" type="video/mp4">
+                </video>
+            `;
+            track.appendChild(slide);
+        }
+
+        // Логика перелистывания, затемнения и включения плеера
+        function initSliderLogic() {
+            slides = document.querySelectorAll('.video-slide');
+            
+            function updateSlider() {
+                slides.forEach((slide, index) => {
+                    const video = slide.querySelector('video');
+                    
+                    if (index === currentIndex) {
+                        slide.classList.add('active');
+                        if (video) {
+                            video.controls = true; // Включаем плеер (play, таймлайн, звук) только по центру
+                        }
+                    } else {
+                        slide.classList.remove('active');
+                        if (video) {
+                            video.controls = false; // Отключаем интерфейс у боковых видео
+                            video.pause(); // Если видео играло и уехало вбок — ставим на паузу
+                        }
+                    }
+                });
+
+                // Математический просчет идеального центрирования активного слайда
+                const wrapperWidth = track.parentElement.offsetWidth;
+                const slideWidth = slides[currentIndex].offsetWidth;
+                const gap = 30; // Должен совпадать с gap в CSS
+
+                let totalOffset = 0;
+                for (let i = 0; i < currentIndex; i++) {
+                    totalOffset += slides[i].offsetWidth + gap;
+                }
+
+                const centerPosition = (wrapperWidth - slideWidth) / 2;
+                track.style.transform = `translateX(${centerPosition - totalOffset}px)`;
+            }
+
+            // Нажатие на стрелки
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateSlider();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentIndex < slides.length - 1) {
+                    currentIndex++;
+                    updateSlider();
+                }
+            });
+
+            // Клик по самому боковому слайду автоматически перелистывает на него
+            slides.forEach((slide, index) => {
+                slide.addEventListener('click', () => {
+                    if (index !== currentIndex) {
+                        currentIndex = index;
+                        updateSlider();
+                    }
+                });
+            });
+
+            // Корректный пересчет центра при изменении размеров экрана или повороте мобилки
+            window.addEventListener('resize', updateSlider);
+            
+            // Запуск стартового позиционирования
+            updateSlider();
+        }
+
+        // Запускаем робота-поисковика при загрузке страницы
+        autoLoadVideos();
     </script>
 </body>
 </html>
