@@ -164,7 +164,7 @@
             line-height: 1.6;
         }
 
-        /* СЕТКА КАЧЕСТВ С ВЫДЕЛЕНИЕМ КАРТОЧЕК */
+     /* КАРТОЧКИ С ПОСЛЕДОВАТЕЛЬНОЙ ЗАЛИВКОЙ ПО КРУГУ */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -173,31 +173,91 @@
 
         .feature-card {
             background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 30px;
-            border-radius: 10px;
-            border-top: 3px solid #0070f3;
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s, border-color 0.4s, background 0.4s;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.03); /* Едва заметная базовая рамка */
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s, background 0.4s;
         }
 
+        /* Наведение на карточку */
         .feature-card:hover {
-            transform: scale(1.08);
-            border-color: #0070f3;
-            box-shadow: 0 0 40px rgba(0, 112, 243, 0.25);
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(0, 112, 243, 0.2);
             background: rgba(0, 112, 243, 0.03);
         }
 
-        .feature-card h3 {
-            font-size: 20px;
-            margin-bottom: 12px;
+        /* Создаем 4 линии для каждой стороны рамки */
+        .feature-card::before,
+        .feature-card::after,
+        .feature-card-line::before,
+        .feature-card-line::after {
+            content: '';
+            position: absolute;
+            background: #0070f3;
+            box-shadow: 0 0 8px #0070f3;
+            transition: all 0.15s linear;
         }
 
-        .feature-card p {
-            font-size: 14px;
-            color: #a1a1a6;
-            line-height: 1.5;
+        /* 1. Верхняя линия (идет из правого угла влево) */
+        .feature-card::before {
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+        }
+        .feature-card:hover::before {
+            width: 100%;
+            transition: width 0.12s linear;
         }
 
+        /* 2. Левая линия (идет сверху вниз) */
+        .feature-card::after {
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 0;
+        }
+        .feature-card:hover::after {
+            height: 100%;
+            transition: height 0.12s linear 0.12s; /* Задержка, пока идет верхняя */
+        }
+
+        /* 3. Нижняя линия (идет слева направо) */
+        .feature-card-span-1 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #0070f3;
+            box-shadow: 0 0 8px #0070f3;
+            transition: width 0.12s linear 0.24s; /* Задержка */
+        }
+        .feature-card:hover .feature-card-span-1 {
+            width: 100%;
+        }
+
+        /* 4. Правая линия (идет снизу вверх обратно в правый угол) */
+        .feature-card-span-2 {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 2px;
+            height: 0;
+            background: #0070f3;
+            box-shadow: 0 0 8px #0070f3;
+            transition: height 0.12s linear 0.36s; /* Задержка */
+        }
+        .feature-card:hover .feature-card-span-2 {
+            height: 100%;
+        }
+
+        .feature-card h3, .feature-card p {
+            position: relative;
+            z-index: 2;
+        }
         /* ПОРТФОЛИО */
         .work-grid {
             display: grid;
