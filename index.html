@@ -417,6 +417,105 @@
         .hero-subtitle span:nth-child(20) { animation-delay: 0.76s; }
         .hero-subtitle span:nth-child(21) { animation-delay: 0.78s; }
         .hero-subtitle span:nth-child(22) { animation-delay: 0.80s; }
+        @media (max-width: 768px) {
+    /* 1. Уменьшаем отступы секций, чтобы не было гигантских пустых экранов */
+    section {
+        padding: 50px 16px;
+    }
+
+    /* 2. Адаптируем главный экран (Hero) */
+    .gradient-nick span {
+        font-size: 48px; /* Уменьшаем ник, чтобы он не вылезал за границы */
+        letter-spacing: -1px;
+    }
+
+    .hero-subtitle {
+        font-size: 24px; /* Уменьшаем подзаголовок */
+        margin-bottom: 20px;
+    }
+
+    .hero-descr {
+        font-size: 15px;
+    }
+
+    .section-title {
+        font-size: 28px; /* Уменьшаем заголовки секций */
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    /* 3. Карусель софта и навыков */
+    .app-card {
+        min-width: 260px; /* Делаем карточки чуть уже для экранов телефонов */
+        width: 260px;
+        padding: 25px;
+        border-radius: 16px;
+    }
+
+    .app-icon {
+        width: 70px; /* Уменьшаем иконки программ */
+        height: 70px;
+        margin-bottom: 15px;
+    }
+
+    .apple-garamond {
+        font-size: 20px;
+    }
+
+    /* 4. Сетка преимуществ */
+    .features-grid {
+        grid-template-columns: 1fr; /* На смартфонах выстраиваем карточки строго в одну колонку */
+        gap: 16px;
+    }
+
+    .feature-card {
+        padding: 20px;
+    }
+
+    /* 5. Слайдер портфолио */
+    .slider-container {
+        /* Меняем расположение стрелочек: убираем их по бокам, чтобы они не перекрывали видео */
+        flex-direction: column; 
+        gap: 20px;
+    }
+
+    .slider-track-wrapper {
+        width: 100%; /* Отдаем максимум ширины под видео */
+    }
+
+    .prev-btn { margin-right: 0; order: 2; }
+    .next-btn { margin-left: 0; order: 3; }
+    
+    /* Обертка для кнопок, если захотите сделать их в один ряд под слайдером */
+    .video-slide.active {
+        transform: scale(1); /* На мобилках сильное увеличение может обрезать края */
+        box-shadow: 0 0 30px rgba(0, 255, 148, 0.25);
+    }
+
+    /* 6. Блок призыва к действию (CTA) */
+    #contact h2 {
+        font-size: 32px !important; /* Перебиваем инлайновый стиль */
+    }
+
+    .btn-tg {
+        width: 100%; /* Кнопка на всю ширину экрана для удобного нажатия пальцем */
+        padding: 16px 20px;
+        font-size: 16px;
+    }
+}
+
+/* Дополнительные правки для совсем маленьких экранов (до 480px) */
+@media (max-width: 480px) {
+    .gradient-nick span {
+        font-size: 36px;
+    }
+    .hero-subtitle {
+        font-size: 18px;
+    }
+    .video-slide {
+        width: 260px; /* Корректируем ширину видео под узкие экраны */
+    }
+}
 
         @keyframes elegantBounce {
             0% { opacity: 0; transform: translateY(12px) scale(0.93); }
