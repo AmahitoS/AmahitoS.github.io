@@ -266,7 +266,7 @@
 
         .slider-track {
             display: flex;
-            align-items: center; /* Видео разной высоты будут красиво выровнены по центру оси */
+            align-items: center; /* Центрируем по вертикали, чтобы видео разной высоты смотрелись гармонично */
             transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
             gap: 30px;
             width: max-content;
@@ -278,25 +278,25 @@
             border-radius: 24px;
             overflow: hidden;
             border: 2px solid rgba(255, 255, 255, 0.03);
-            transition: transform 0.5s ease, opacity 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+            transition: transform 0.5s ease, opacity 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, width 0.3s ease, aspect-ratio 0.3s ease;
             opacity: 0.25;
             transform: scale(0.85);
             position: relative;
             cursor: pointer;
-            width: 400px; /* Дефолтная заглушка до определения размеров */
+            width: 450px; /* Дефолтная ширина */
             aspect-ratio: 16/9;
         }
 
         /* ЕСЛИ ВИДЕО ГОРИЗОНТАЛЬНОЕ */
         .video-slide.horizontal {
-            width: 550px;
-            aspect-ratio: 16/9;
+            width: 550px !important;
+            aspect-ratio: 16/9 !important;
         }
 
         /* ЕСЛИ ВИДЕО ВЕРТИКАЛЬНОЕ */
         .video-slide.vertical {
-            width: 320px;
-            aspect-ratio: 9/16;
+            width: 300px !important;
+            aspect-ratio: 9/16 !important;
         }
 
         .video-slide.active {
@@ -345,8 +345,8 @@
 
         /* АДАПТИВНОСТЬ ПОД МОБИЛЬНЫЕ */
         @media (max-width: 768px) {
-            .video-slide.horizontal { width: 360px; }
-            .video-slide.vertical { width: 240px; }
+            .video-slide.horizontal { width: 360px !important; }
+            .video-slide.vertical { width: 220px !important; }
 
             .slider-btn {
                 width: 45px;
@@ -402,8 +402,8 @@
         @media (max-width: 480px) {
             .gradient-nick span { font-size: 36px; }
             .hero-subtitle { font-size: 18px; }
-            .video-slide.horizontal { width: 290px; }
-            .video-slide.vertical { width: 190px; }
+            .video-slide.horizontal { width: 280px !important; }
+            .video-slide.vertical { width: 180px !important; }
         }
 
         @keyframes elegantBounce {
@@ -587,7 +587,7 @@
         const nextBtn = document.querySelector('.next-btn');
         let currentIndex = 0;
         let slides = [];
-        let updateSlider; // Глобальная ссылка на функцию обновления слайдера
+        let updateSlider; 
 
         async function autoLoadVideos() {
             let index = 1;
@@ -634,16 +634,24 @@
             video.appendChild(source);
             slide.appendChild(video);
 
-            // АВТОДЕТЕКЦИЯ ФОРМАТА ВИДЕО
-            video.addEventListener('loadedmetadata', () => {
-                if (video.videoWidth >= video.videoHeight) {
-                    slide.classList.add('horizontal');
-                } else {
-                    slide.classList.add('vertical');
+            // ФУНКЦИЯ ДЛЯ ТОЧНОГО ОПРЕДЕЛЕНИЯ РАЗМЕРОВ
+            function detectOrientation() {
+                if (video.videoWidth > 0 && video.videoHeight > 0) {
+                    if (video.videoWidth >= video.videoHeight) {
+                        slide.classList.remove('vertical');
+                        slide.classList.add('horizontal');
+                    } else {
+                        slide.classList.remove('horizontal');
+                        slide.classList.add('vertical');
+                    }
+                    if (updateSlider) updateSlider();
                 }
-                // Пересчитываем координаты слайдера, так как ширина изменилась
-                if (updateSlider) updateSlider();
-            });
+            }
+
+            // Проверяем на все возможные события загрузки файла браузером
+            video.addEventListener('loadedmetadata', detectOrientation);
+            video.addEventListener('loadeddata', detectOrientation);
+            video.addEventListener('canplay', detectOrientation);
 
             track.appendChild(slide);
         }
@@ -652,6 +660,8 @@
             slides = document.querySelectorAll('.video-slide');
             
             updateSlider = function() {
+                if(slides.length === 0) return;
+
                 slides.forEach((slide, index) => {
                     const video = slide.querySelector('video');
                     
@@ -710,7 +720,9 @@
             });
 
             window.addEventListener('resize', updateSlider);
-            updateSlider();
+            
+            // Небольшая задержка для первой отрисовки, чтобы браузер успел понять ширину блоков
+            setTimeout(updateSlider, 150);
         }
 
         autoLoadVideos();
