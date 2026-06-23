@@ -28,7 +28,7 @@
             overflow-x: hidden;
         }
 
-        /* БЕЛЫЕ СВЕТЯЩИЕСЯ БЛИКИ ПО УГЛАМ (СТИЛЬ GOOGLE / APPLE) - ЯРКИЕ */
+        /* БЕЛЫЕ СВЕТЯЩИЕСЯ БЛИКИ ПО УГЛАМ */
         .corner-glow {
             position: fixed;
             width: 500px;
@@ -43,19 +43,16 @@
         .glow-bottom-left { bottom: -200px; left: -200px; }
         .glow-bottom-right { bottom: -200px; right: -200px; }
 
-        /* ЧИСТОЕ БЕЛОЕ НЕОНОВОЕ СВЕЧЕНИЕ ДЛЯ АНГЛИЙСКИХ СЛОВ В КАРУСЕЛИ */
         .glow-text {
             color: #ffffff;
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
         }
 
-        /* ЯРКО-ЗЕЛЕНОЕ СВЕЧЕНИЕ ДЛЯ ЗАГОЛОВКОВ В СЕКЦИИ ПОДХОДА */
         .green-glow-text {
             color: #00ff94;
             text-shadow: 0 0 8px rgba(0, 255, 148, 0.8), 0 0 20px rgba(0, 255, 148, 0.3);
         }
 
-        /* СЕКЦИИ САЙТА С ПЛАВНЫМ ИНЕРЦИОННЫМ ВЫЛЕТОМ */
         section {
             max-width: 1100px;
             margin: 0 auto;
@@ -184,7 +181,7 @@
             line-height: 1.6;
         }
 
-        /* КАРТОЧКИ С ПИКСЕЛЬ-ПЕРФЕКТ КРУГОВОЙ ОБВОДКОЙ */
+        /* КАРТОЧКИ С СЕТКОЙ */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -250,7 +247,7 @@
             line-height: 1.5;
         }
 
-        /* ПОРТФОЛИО СЛАЙДЕР */
+        /* ПОРТФОЛИО СЛАЙДЕР (УНИВЕРСАЛЬНЫЙ СМЕШАННЫЙ ФОРМАТ) */
         .slider-container {
             position: relative;
             display: flex;
@@ -269,15 +266,14 @@
 
         .slider-track {
             display: flex;
-            align-items: center;
+            align-items: center; /* Видео разной высоты будут красиво выровнены по центру оси */
             transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
             gap: 30px;
             width: max-content;
         }
 
+        /* Базовый класс для слайда */
         .video-slide {
-            width: 550px;
-            aspect-ratio: 16/9;
             background: #0f1319;
             border-radius: 24px;
             overflow: hidden;
@@ -287,6 +283,20 @@
             transform: scale(0.85);
             position: relative;
             cursor: pointer;
+            width: 400px; /* Дефолтная заглушка до определения размеров */
+            aspect-ratio: 16/9;
+        }
+
+        /* ЕСЛИ ВИДЕО ГОРИЗОНТАЛЬНОЕ */
+        .video-slide.horizontal {
+            width: 550px;
+            aspect-ratio: 16/9;
+        }
+
+        /* ЕСЛИ ВИДЕО ВЕРТИКАЛЬНОЕ */
+        .video-slide.vertical {
+            width: 320px;
+            aspect-ratio: 9/16;
         }
 
         .video-slide.active {
@@ -333,10 +343,11 @@
         .prev-btn { margin-right: -20px; }
         .next-btn { margin-left: -20px; }
 
+        /* АДАПТИВНОСТЬ ПОД МОБИЛЬНЫЕ */
         @media (max-width: 768px) {
-            .video-slide {
-                width: 290px;
-            }
+            .video-slide.horizontal { width: 360px; }
+            .video-slide.vertical { width: 240px; }
+
             .slider-btn {
                 width: 45px;
                 height: 45px;
@@ -346,176 +357,54 @@
                 width: 300px;
                 height: 300px;
             }
+            section {
+                padding: 50px 16px;
+            }
+            .gradient-nick span {
+                font-size: 48px;
+                letter-spacing: -1px;
+            }
+            .hero-subtitle {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            .hero-descr {
+                font-size: 15px;
+            }
+            .section-title {
+                font-size: 28px;
+                margin-bottom: 30px;
+                text-align: center;
+            }
+            .app-card {
+                min-width: 260px;
+                width: 260px;
+                padding: 25px;
+                border-radius: 16px;
+            }
+            .app-icon {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 15px;
+            }
+            .apple-garamond { font-size: 20px; }
+            .features-grid { grid-template-columns: 1fr; gap: 16px; }
+            .feature-card { padding: 20px; }
+            .slider-container { flex-direction: column; gap: 20px; }
+            .slider-track-wrapper { width: 100%; }
+            .prev-btn { margin-right: 0; order: 2; }
+            .next-btn { margin-left: 0; order: 3; }
+            .video-slide.active { transform: scale(1); box-shadow: 0 0 30px rgba(0, 255, 148, 0.25); }
+            #contact h2 { font-size: 32px !important; }
+            .btn-tg { width: 100%; padding: 16px 20px; font-size: 16px; }
         }
 
-        /* КНОПКА СВЯЗИ */
-        .cta-box {
-            text-align: center;
-            padding: 60px 0;
+        @media (max-width: 480px) {
+            .gradient-nick span { font-size: 36px; }
+            .hero-subtitle { font-size: 18px; }
+            .video-slide.horizontal { width: 290px; }
+            .video-slide.vertical { width: 190px; }
         }
-
-        .btn-tg {
-            display: inline-block;
-            background: #0070f3;
-            color: #fff;
-            padding: 18px 45px;
-            border-radius: 100px;
-            font-weight: 600;
-            font-size: 18px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .btn-tg:hover {
-            background: #00ff94;
-            color: #05070a;
-            box-shadow: 0 0 30px rgba(0, 255, 148, 0.4);
-        }
-
-        /* ПОБУКВЕННАЯ АНИМАЦИЯ */
-        .bounce-text {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .bounce-text span {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(12px) scale(0.93);
-            animation: elegantBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.12) forwards;
-        }
-
-        .gradient-nick span:nth-child(1) { animation-delay: 0.04s; }
-        .gradient-nick span:nth-child(2) { animation-delay: 0.08s; }
-        .gradient-nick span:nth-child(3) { animation-delay: 0.12s; }
-        .gradient-nick span:nth-child(4) { animation-delay: 0.16s; }
-        .gradient-nick span:nth-child(5) { animation-delay: 0.20s; }
-        .gradient-nick span:nth-child(6) { animation-delay: 0.24s; }
-        .gradient-nick span:nth-child(7) { animation-delay: 0.28s; }
-        .gradient-nick span:nth-child(8) { animation-delay: 0.32s; }
-
-        .hero-subtitle span:nth-child(1) { animation-delay: 0.38s; }
-        .hero-subtitle span:nth-child(2) { animation-delay: 0.40s; }
-        .hero-subtitle span:nth-child(3) { animation-delay: 0.42s; }
-        .hero-subtitle span:nth-child(4) { animation-delay: 0.44s; }
-        .hero-subtitle span:nth-child(5) { animation-delay: 0.46s; }
-        .hero-subtitle span:nth-child(6) { animation-delay: 0.48s; }
-        .hero-subtitle span:nth-child(7) { animation-delay: 0.50s; }
-        .hero-subtitle span:nth-child(8) { animation-delay: 0.52s; }
-        .hero-subtitle span:nth-child(9) { animation-delay: 0.54s; }
-        .hero-subtitle span:nth-child(10) { animation-delay: 0.56s; }
-        .hero-subtitle span:nth-child(11) { animation-delay: 0.58s; }
-        .hero-subtitle span:nth-child(12) { animation-delay: 0.60s; }
-        .hero-subtitle span:nth-child(13) { animation-delay: 0.62s; }
-        .hero-subtitle span:nth-child(14) { animation-delay: 0.64s; }
-        .hero-subtitle span:nth-child(15) { animation-delay: 0.66s; }
-        .hero-subtitle span:nth-child(16) { animation-delay: 0.68s; }
-        .hero-subtitle span:nth-child(17) { animation-delay: 0.70s; }
-        .hero-subtitle span:nth-child(18) { animation-delay: 0.72s; }
-        .hero-subtitle span:nth-child(19) { animation-delay: 0.74s; }
-        .hero-subtitle span:nth-child(20) { animation-delay: 0.76s; }
-        .hero-subtitle span:nth-child(21) { animation-delay: 0.78s; }
-        .hero-subtitle span:nth-child(22) { animation-delay: 0.80s; }
-        @media (max-width: 768px) {
-    /* 1. Уменьшаем отступы секций, чтобы не было гигантских пустых экранов */
-    section {
-        padding: 50px 16px;
-    }
-
-    /* 2. Адаптируем главный экран (Hero) */
-    .gradient-nick span {
-        font-size: 48px; /* Уменьшаем ник, чтобы он не вылезал за границы */
-        letter-spacing: -1px;
-    }
-
-    .hero-subtitle {
-        font-size: 24px; /* Уменьшаем подзаголовок */
-        margin-bottom: 20px;
-    }
-
-    .hero-descr {
-        font-size: 15px;
-    }
-
-    .section-title {
-        font-size: 28px; /* Уменьшаем заголовки секций */
-        margin-bottom: 30px;
-        text-align: center;
-    }
-
-    /* 3. Карусель софта и навыков */
-    .app-card {
-        min-width: 260px; /* Делаем карточки чуть уже для экранов телефонов */
-        width: 260px;
-        padding: 25px;
-        border-radius: 16px;
-    }
-
-    .app-icon {
-        width: 70px; /* Уменьшаем иконки программ */
-        height: 70px;
-        margin-bottom: 15px;
-    }
-
-    .apple-garamond {
-        font-size: 20px;
-    }
-
-    /* 4. Сетка преимуществ */
-    .features-grid {
-        grid-template-columns: 1fr; /* На смартфонах выстраиваем карточки строго в одну колонку */
-        gap: 16px;
-    }
-
-    .feature-card {
-        padding: 20px;
-    }
-
-    /* 5. Слайдер портфолио */
-    .slider-container {
-        /* Меняем расположение стрелочек: убираем их по бокам, чтобы они не перекрывали видео */
-        flex-direction: column; 
-        gap: 20px;
-    }
-
-    .slider-track-wrapper {
-        width: 100%; /* Отдаем максимум ширины под видео */
-    }
-
-    .prev-btn { margin-right: 0; order: 2; }
-    .next-btn { margin-left: 0; order: 3; }
-    
-    /* Обертка для кнопок, если захотите сделать их в один ряд под слайдером */
-    .video-slide.active {
-        transform: scale(1); /* На мобилках сильное увеличение может обрезать края */
-        box-shadow: 0 0 30px rgba(0, 255, 148, 0.25);
-    }
-
-    /* 6. Блок призыва к действию (CTA) */
-    #contact h2 {
-        font-size: 32px !important; /* Перебиваем инлайновый стиль */
-    }
-
-    .btn-tg {
-        width: 100%; /* Кнопка на всю ширину экрана для удобного нажатия пальцем */
-        padding: 16px 20px;
-        font-size: 16px;
-    }
-}
-
-/* Дополнительные правки для совсем маленьких экранов (до 480px) */
-@media (max-width: 480px) {
-    .gradient-nick span {
-        font-size: 36px;
-    }
-    .hero-subtitle {
-        font-size: 18px;
-    }
-    .video-slide {
-        width: 260px; /* Корректируем ширину видео под узкие экраны */
-    }
-}
 
         @keyframes elegantBounce {
             0% { opacity: 0; transform: translateY(12px) scale(0.93); }
@@ -524,7 +413,6 @@
             100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* ЦЕНТРАЛЬНЫЙ ФОНОВЫЙ БЛИК - ЯРКИЙ */
         .glow {
             position: absolute;
             width: 600px;
@@ -699,6 +587,7 @@
         const nextBtn = document.querySelector('.next-btn');
         let currentIndex = 0;
         let slides = [];
+        let updateSlider; // Глобальная ссылка на функцию обновления слайдера
 
         async function autoLoadVideos() {
             let index = 1;
@@ -729,30 +618,40 @@
 
         function createVideoSlide(url, num) {
             const slide = document.createElement('div');
+            slide.className = (num === 1) ? 'video-slide active' : 'video-slide';
             
-            // Если это первое видео, сразу делаем его активным и прописываем muted для оптимизации загрузки
+            const video = document.createElement('video');
+            video.preload = "metadata";
+            video.playsInline = true;
             if (num === 1) {
-                slide.className = 'video-slide active';
-                slide.innerHTML = `
-                    <video preload="metadata" playsinline controls muted>
-                        <source src="${url}" type="video/mp4">
-                    </video>
-                `;
-            } else {
-                slide.className = 'video-slide';
-                slide.innerHTML = `
-                    <video preload="metadata" playsinline>
-                        <source src="${url}" type="video/mp4">
-                    </video>
-                `;
+                video.controls = true;
+                video.muted = true;
             }
+
+            const source = document.createElement('source');
+            source.src = url;
+            source.type = "video/mp4";
+            video.appendChild(source);
+            slide.appendChild(video);
+
+            // АВТОДЕТЕКЦИЯ ФОРМАТА ВИДЕО
+            video.addEventListener('loadedmetadata', () => {
+                if (video.videoWidth >= video.videoHeight) {
+                    slide.classList.add('horizontal');
+                } else {
+                    slide.classList.add('vertical');
+                }
+                // Пересчитываем координаты слайдера, так как ширина изменилась
+                if (updateSlider) updateSlider();
+            });
+
             track.appendChild(slide);
         }
 
         function initSliderLogic() {
             slides = document.querySelectorAll('.video-slide');
             
-            function updateSlider() {
+            updateSlider = function() {
                 slides.forEach((slide, index) => {
                     const video = slide.querySelector('video');
                     
